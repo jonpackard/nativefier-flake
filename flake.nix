@@ -8,14 +8,17 @@
     {
       devShells.x86_64-linux.default = pkgs.mkShell {
         packages = [
-          # Made available on the CLI
           pkgs.nodejs
-          pkgs.npm
-          # pkgs.python3
         ];
-        # RUST_LOG = 1; # Set as environment variable
+        
+        shellHook = ''
+          printf "\n*** Note: On the first run, it can take a while to download packages! ***\n" && npm install -i nativefier && alias nativefier="./node_modules/.bin/nativefier" && printf "\n*** Nativefier installation complete. Created alias "nativefier" that will launch nativefier from this path. ***\n"
+        '';
+
       };
 
-      # You could also define extra shells or packages here
+      # Enable npm
+      pkgs.options.programs.npm.enable = true;
+      
     };
 }
